@@ -37,7 +37,7 @@ app.get('/api/posts', async (req, res) => {
 
 // Servírování HTML souboru
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'html', 'index.html'));  // Opravená cesta k HTML souboru
+  res.sendFile(path.join(__dirname, '../html', 'index.html'));  // Opravená cesta k HTML souboru
 });
 
 // Spuštění serveru
