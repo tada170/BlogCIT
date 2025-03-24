@@ -5,23 +5,28 @@ const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
+// Použijeme CORS a static soubory
 app.use(cors());
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 // Připojení k MongoDB
 mongoose.connect('mongodb://localhost:27017/webnews', { useNewUrlParser: true, useUnifiedTopology: true })
-    .then(() => console.log('Connected to MongoDB'))
-    .catch((err) => console.log('Error connecting to MongoDB:', err));
+    .then(() => {
+      console.log('Connected to MongoDB');
+    })
+    .catch((err) => {
+      console.log('Error connecting to MongoDB:', err);
+    });
 
-// Schéma pro příspěvky
+// Definice schématu pro kolekci 'idnes'
 const postSchema = new mongoose.Schema({
   title: String,
-  categories: String,  // Přidání kategorií, podle struktury vašeho dokumentu
-  content: [String],   // Obsah jako pole řetězců
+  categories: String,
+  content: [String],
   date: { type: Date, default: Date.now },
 });
 
-// Model pro kolekci 'idnes'
+// Vytvoření modelu pro kolekci 'idnes'
 const Post = mongoose.model('Post', postSchema, 'idnes');
 
 // Endpoint pro získání všech příspěvků
@@ -36,7 +41,7 @@ app.get('/api/posts', async (req, res) => {
   }
 });
 
-// Hlavní stránka, která obsahuje index.html
+// Endpoint pro zobrazení indexového HTML souboru
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../html', 'index.html'));
 });
