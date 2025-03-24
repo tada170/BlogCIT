@@ -4,11 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog</title>
-    <link rel="stylesheet" href="/static/styles.css">
+    <style>
+        /* Inline CSS */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .posts {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 2rem;
+        }
+
+        .post {
+            background-color: #fff;
+            padding: 1rem;
+            margin: 1rem;
+            width: 80%;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post h2 {
+            margin: 0;
+            color: #333;
+        }
+
+        .post p {
+            color: #666;
+        }
+    </style>
 </head>
 <body>
-<h1>Blog</h1>
-<div id="posts"></div>
-<script src="/static/script.js"></script>
+<header>
+    <h1>Blog</h1>
+</header>
+
+<div class="posts" id="posts">
+    <!-- Příspěvky budou načteny tady -->
+</div>
+
+<script>
+    // Inline JavaScript pro zobrazení příspěvků
+    async function fetchPosts() {
+        try {
+            const response = await fetch('/api/posts');
+            const posts = await response.json();
+            const postsContainer = document.getElementById('posts');
+            postsContainer.innerHTML = ''; // Vymazat obsah, pokud je nějaký starý
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                postElement.innerHTML = `
+            <h2>${post.title}</h2>
+            <p>${post.content}</p>
+          `;
+                postsContainer.appendChild(postElement);
+            });
+        } catch (error) {
+            console.error('Chyba při načítání příspěvků:', error);
+        }
+    }
+
+    // Načítání příspěvků při načtení stránky
+    window.onload = fetchPosts;
+</script>
 </body>
 </html>
