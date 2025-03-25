@@ -2,11 +2,12 @@ const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
 const cors = require('cors');
+
 const app = express();
 const PORT = 3000;
 
-// Použijeme CORS a static soubory
 app.use(cors());
+app.use(express.json()); // Přidání pro práci s JSON requesty
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb://localhost:27017/webnews')
@@ -24,7 +25,7 @@ const postSchema = new mongoose.Schema({
   date: { type: Date, default: Date.now },
 });
 
-const Post = mongoose.model('Post', 'idnes');
+const Post = mongoose.model('Post', postSchema, 'idnes');
 
 app.get('/api/posts', async (req, res) => {
   try {
