@@ -29,7 +29,7 @@ const Post = mongoose.model('Post', postSchema, 'idnes');
 
 app.get('/api/posts', async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().limit(100);
     console.log('Načtené příspěvky:', posts);
     res.json(posts);
   } catch (error) {
