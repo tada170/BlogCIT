@@ -7,7 +7,7 @@ const app = express();
 const PORT = 3000;
 
 app.use(cors());
-app.use(express.json()); // Přidání pro práci s JSON requesty
+app.use(express.json());
 app.use('/static', express.static(path.join(__dirname, 'public')));
 
 mongoose.connect('mongodb://localhost:27017/webnews')
